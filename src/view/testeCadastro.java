@@ -7,6 +7,7 @@ public class testeCadastro {
         System.out.println("O Cadastro se iniciou...");
 
         Cadastro c []= new Cadastro[2];
+        c[0] = new Cadastro();
         c[0].setId(1);
         c[0].setNome("Murilo de Oliveira Lopes");
         c[0].setDataNascimento("18/11/2002");
@@ -18,5 +19,6 @@ public class testeCadastro {
 
         c[1] = new Cadastro(2,"Pedro Lopes","10/08/2005","rua fulando de tal","123.456.789-02","pedro@projetoA3.com");
         System.out.println("\nNome:\t" + c[1].getNome());
+        
     }
 }
