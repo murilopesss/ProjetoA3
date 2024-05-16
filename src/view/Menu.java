@@ -15,8 +15,8 @@ public class Menu {
         int option;
         do {
             System.out.println("Menu de Opções:");
-            System.out.println("1. Adicionar um contato");
-            System.out.println("2. Atualizar um contato");
+            System.out.println("1. Adicionar um cadastro");
+            System.out.println("2. Atualizar um cadastro");
             System.out.println("3. Listar todos");
             System.out.println("4. Listar por parte do nome");
             System.out.println("5. Remover um usuário");
@@ -27,10 +27,10 @@ public class Menu {
 
             switch (option) {
                 case 1:
-                    adicionarContato();
+                    adicionarCadastro();
                     break;
                 case 2:
-                    atualizarContato();
+                    atualizarCadastro();
                     break;
                 case 3:
                     listarTodos();
@@ -50,7 +50,7 @@ public class Menu {
         } while (option != 6);
     }
 
-    private static void adicionarContato() {
+    private static void adicionarCadastro() {
         System.out.print("ID: ");
         int id = leia.nextInt();
         leia.nextLine(); 
@@ -75,7 +75,7 @@ public class Menu {
         System.out.println("Contato adicionado com sucesso!");
     }
 
-    private static void atualizarContato() {
+    private static void atualizarCadastro() {
         System.out.print("Informe o ID do contato que deseja atualizar: ");
         int id = leia.nextInt();
         leia.nextLine(); 
