@@ -1,14 +1,23 @@
 
 package view;
 
-import model.Cadastro;
+import model.Usuario;
+import controller.ControlaCadastro;
+import controller.ControlaCadastro;
 
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+import connection.ConexaoMySQL;
+
 public class Menu {
 
-    private static ArrayList<Cadastro> cadastros = new ArrayList<>();
+    private static ArrayList<Usuario> cadastros = new ArrayList<>();
     private static Scanner leia = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -58,7 +67,7 @@ public class Menu {
         System.out.print("Nome: ");
         String nome = leia.nextLine();
 
-        System.out.print("Data de Nascimento (dd/mm/yyyy): ");
+        System.out.print("Data de Nascimento (yyyy-mm-dd): ");
         String dataNascimento = leia.nextLine();
 
         System.out.print("Endereço: ");
@@ -70,8 +79,11 @@ public class Menu {
         System.out.print("Email: ");
         String email = leia.nextLine();
 
-        Cadastro cadastro = new Cadastro(id, nome, dataNascimento, endereco, documento, email);
+        Usuario cadastro = new Usuario(id, nome, dataNascimento, endereco, documento, email);
         cadastros.add(cadastro);
+        
+        ControlaCadastro.adicionaCadastro(cadastro);
+        
         System.out.println("Contato adicionado com sucesso!");
     }
 
@@ -80,12 +92,12 @@ public class Menu {
         int id = leia.nextInt();
         leia.nextLine(); 
 
-        for (Cadastro cadastro : cadastros) {
+        for (Usuario cadastro : cadastros) {
             if (cadastro.getId() == id) {
                 System.out.print("Novo nome: ");
                 cadastro.setNome(leia.nextLine());
 
-                System.out.print("Nova data de nascimento (dd/mm/yyyy): ");
+                System.out.print("Nova data de nascimento (yyyy-mm-dd): ");
                 cadastro.setDataNascimento(leia.nextLine());
 
                 System.out.print("Novo endereço: ");
@@ -96,6 +108,8 @@ public class Menu {
 
                 System.out.print("Novo email: ");
                 cadastro.setEmail(leia.nextLine());
+                
+                ControlaCadastro.atualizaCadastro(cadastro);
 
                 System.out.println("Contato atualizado com sucesso!");
                 return;
@@ -108,7 +122,7 @@ public class Menu {
         if (cadastros.isEmpty()) {
             System.out.println("Nenhum contato cadastrado.");
         } else {
-            for (Cadastro cadastro : cadastros) {
+            for (Usuario cadastro : cadastros) {
                 System.out.println(cadastro);
             }
         }
@@ -118,7 +132,7 @@ public class Menu {
         System.out.print("Informe parte do nome que deseja buscar: ");
         String nome = leia.nextLine();
 
-        for (Cadastro cadastro : cadastros) {
+        for (Usuario cadastro : cadastros) {
             if (cadastro.getNome().toLowerCase().contains(nome.toLowerCase())) {
                 System.out.println(cadastro);
             }
@@ -126,17 +140,22 @@ public class Menu {
     }
 
     private static void removerUsuario() {
-        System.out.print("Informe o ID do contato que deseja remover: ");
-        int id = leia.nextInt();
-        leia.nextLine(); 
+    	 System.out.print("Informe o ID do contato que deseja remover: ");
+         int id = leia.nextInt();
+         leia.nextLine(); 
 
-        for (Cadastro cadastro : cadastros) {
-            if (cadastro.getId() == id) {
-                cadastros.remove(cadastro);
-                System.out.println("Contato removido com sucesso!");
-                return;
-            }
-        }
-        System.out.println("Contato não encontrado.");
+         // Remover o cadastro do banco de dados
+         ControlaCadastro.removeCadastro(id);
+
+         for (Usuario cadastro : cadastros) {
+             if (cadastro.getId() == id) {
+                 cadastros.remove(cadastro);
+                 System.out.println("Contato removido com sucesso!");
+                 return;
+             }
+         }
+                 
     }
+        
+    
 }
