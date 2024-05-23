@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -92,33 +93,33 @@ public class Menu {
         int id = leia.nextInt();
         leia.nextLine(); 
 
-        for (Usuario cadastro : cadastros) {
-            if (cadastro.getId() == id) {
-                System.out.print("Novo nome: ");
-                cadastro.setNome(leia.nextLine());
+        Usuario cadastro = ControlaCadastro.buscarPorId(id);
+        if (cadastro != null) {
+            System.out.print("Novo nome: ");
+            cadastro.setNome(leia.nextLine());
 
-                System.out.print("Nova data de nascimento (yyyy-mm-dd): ");
-                cadastro.setDataNascimento(leia.nextLine());
+            System.out.print("Nova data de nascimento (yyyy-mm-dd): ");
+            cadastro.setDataNascimento(leia.nextLine());
 
-                System.out.print("Novo endereço: ");
-                cadastro.setEndereco(leia.nextLine());
+            System.out.print("Novo endereço: ");
+            cadastro.setEndereco(leia.nextLine());
 
-                System.out.print("Novo documento: ");
-                cadastro.setDocumento(leia.nextLine());
+            System.out.print("Novo documento: ");
+            cadastro.setDocumento(leia.nextLine());
 
-                System.out.print("Novo email: ");
-                cadastro.setEmail(leia.nextLine());
-                
-                ControlaCadastro.atualizaCadastro(cadastro);
+            System.out.print("Novo email: ");
+            cadastro.setEmail(leia.nextLine());
+            
+            ControlaCadastro.atualizaCadastro(cadastro);
 
-                System.out.println("Contato atualizado com sucesso!");
-                return;
-            }
+            System.out.println("Contato atualizado com sucesso!");
+        } else {
+            System.out.println("Contato não encontrado.");
         }
-        System.out.println("Contato não encontrado.");
     }
 
     private static void listarTodos() {
+        List<Usuario> cadastros = ControlaCadastro.listarTodos();
         if (cadastros.isEmpty()) {
             System.out.println("Nenhum contato cadastrado.");
         } else {
@@ -132,8 +133,11 @@ public class Menu {
         System.out.print("Informe parte do nome que deseja buscar: ");
         String nome = leia.nextLine();
 
-        for (Usuario cadastro : cadastros) {
-            if (cadastro.getNome().toLowerCase().contains(nome.toLowerCase())) {
+        List<Usuario> cadastros = ControlaCadastro.listarPorNome(nome);
+        if (cadastros.isEmpty()) {
+            System.out.println("Nenhum contato encontrado com o nome informado.");
+        } else {
+            for (Usuario cadastro : cadastros) {
                 System.out.println(cadastro);
             }
         }
@@ -144,7 +148,6 @@ public class Menu {
          int id = leia.nextInt();
          leia.nextLine(); 
 
-         // Remover o cadastro do banco de dados
          ControlaCadastro.removeCadastro(id);
 
          for (Usuario cadastro : cadastros) {

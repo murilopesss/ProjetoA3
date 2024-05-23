@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import connection.ConexaoMySQL;
 import model.Usuario;
@@ -75,5 +77,79 @@ public class ControlaCadastro {
         } catch (SQLException e) {
             System.out.println("Erro ao remover cadastro do banco de dados: " + e.getMessage());
         }
+    }
+    
+    public static Usuario buscarPorId(int id) {
+        Connection conn = ConexaoMySQL.getInstance();
+        String sql = "SELECT * FROM dados_usuarios WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Usuario(
+                    rs.getInt("id"),
+                    rs.getString("nome"),
+                    rs.getString("datanascimento"),
+                    rs.getString("endereco"),
+                    rs.getString("documento"),
+                    rs.getString("email")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar cadastro no banco de dados: " + e.getMessage());
+        }
+        return null;
+    }
+    
+    
+    
+    
+    
+
+    public static List<Usuario> listarTodos() {
+        List<Usuario> usuarios = new ArrayList<>();
+        Connection conn = ConexaoMySQL.getInstance();
+        String sql = "SELECT * FROM dados_usuarios";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Usuario usuario = new Usuario(
+                    rs.getInt("id"),
+                    rs.getString("nome"),
+                    rs.getString("datanascimento"),
+                    rs.getString("endereco"),
+                    rs.getString("documento"),
+                    rs.getString("email")
+                );
+                usuarios.add(usuario);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar cadastros do banco de dados: " + e.getMessage());
+        }
+        return usuarios;
+    }
+
+    public static List<Usuario> listarPorNome(String nome) {
+        List<Usuario> usuarios = new ArrayList<>();
+        Connection conn = ConexaoMySQL.getInstance();
+        String sql = "SELECT * FROM dados_usuarios WHERE nome LIKE ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, "%" + nome + "%");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Usuario usuario = new Usuario(
+                    rs.getInt("id"),
+                    rs.getString("nome"),
+                    rs.getString("datanascimento"),
+                    rs.getString("endereco"),
+                    rs.getString("documento"),
+                    rs.getString("email")
+                );
+                usuarios.add(usuario);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar cadastros por nome no banco de dados: " + e.getMessage());
+        }
+        return usuarios;
     }
 }
