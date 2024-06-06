@@ -30,7 +30,8 @@ public class Menu {
             System.out.println("3. Listar todos");
             System.out.println("4. Listar por parte do nome");
             System.out.println("5. Remover um usuário");
-            System.out.println("6. Fechar / Sair do programa");
+            System.out.println("6. Menu de Playlist");
+            System.out.println("0. Fechar / Sair do programa");
             System.out.print("Escolha uma opção: ");
             option = leia.nextInt();
             leia.nextLine(); 
@@ -52,12 +53,15 @@ public class Menu {
                     removerUsuario();
                     break;
                 case 6:
+                    menuMusica.mostrar();
+                    break;
+                case 0:
                     System.out.println("Fechando o programa...");
                     break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
-        } while (option != 6);
+        } while (option != 0);
     }
 
     private static void adicionarCadastro() {
