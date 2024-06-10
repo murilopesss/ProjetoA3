@@ -30,7 +30,7 @@ public class menuMusica {
                     criarPlaylist();
                     break;
                 case 2:
-                    System.out.println("Opção 2 do Submenu escolhida.");
+                    imprimePlaylist();
                     break;
                 case 0:
                     System.out.println("Voltando ao Menu Principal...");
@@ -42,7 +42,14 @@ public class menuMusica {
     }
     
     
-    public static void criarPlaylist() {
+    private static void imprimePlaylist() {
+		
+    
+		
+	}
+
+
+	public static void criarPlaylist() {
     	Random random = new Random();
         Scanner scanner = new Scanner(System.in);
 
@@ -62,7 +69,7 @@ public class menuMusica {
                 conexao = ConexaoMySQL.getInstance();
 
                 // Preparar a consulta SQL
-                String sql = "SELECT artist, song, genre FROM musicas WHERE id = ?";
+                String sql = "SELECT artist, song, subgenero FROM musica WHERE id = ?";
                 pstmt = conexao.prepareStatement(sql);
                 pstmt.setInt(1, idMusica);
 
@@ -73,13 +80,13 @@ public class menuMusica {
                 if (rs.next()) {
                 	String artista = rs.getString("artist");
                     String nomeMusica = rs.getString("song");
-                    String generoMusica = rs.getString("genre");
+                    String generoMusica = rs.getString("subgenero");
                     System.out.println("Música aleatória encontrada: " + nomeMusica + " de " + artista);
 
                     // Pedir ao usuário para avaliar a música
                     int nota;
                     do {
-                        System.out.print("Dê uma nota para a música (0 a 5, 0 para sair): ");
+                        System.out.print("Dê uma nota para a música (1 a 5, 0 para sair): ");
                         nota = scanner.nextInt();
                     } while (nota < 0 || nota > 5);
 
@@ -111,18 +118,19 @@ public class menuMusica {
         // Exibir as notas e gêneros armazenados
         System.out.println("Notas dadas pelo usuário:");
         for (int nota : notas) {
-            System.out.print(nota + " - ");
+            System.out.print(nota + "  ");
         }
         System.out.println();
 
         System.out.println("Gêneros das músicas:");
         for (String genero : generos) {
-            System.out.print(genero + " - ");
+            System.out.print(genero + "  ");
         }
         System.out.println();
         
-        
-    }
+        	
+	}
+	
 
     public static void main(String[] args) {
         mostrar();
