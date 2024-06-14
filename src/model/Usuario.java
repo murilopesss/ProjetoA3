@@ -8,14 +8,12 @@ public class Usuario {
     private String endereco;
     private String documento;
     private String email;
-    //gosto musical
 
 
-    // Construtor padrão
+
     public Usuario() {
     }
 
-    // Construtor com parâmetros
     public Usuario(int id, String nome, String dataNascimento, String endereco,  String documento, String email) {
         this.id = id;
         this.nome = nome;
@@ -25,7 +23,6 @@ public class Usuario {
         this.email = email;
     }
 
-    // Getters and Setters
 
     public int getId(){
         return id;

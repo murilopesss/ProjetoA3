@@ -205,27 +205,21 @@ public class Menu {
         ResultSet rs = null;
 
         try {
-            // Obter conexão com o banco de dados
             conexao = ConexaoMySQL.getInstance();
 
-            // Preparar a consulta SQL para contar as músicas por subgênero
             String sql = "SELECT subgenero, COUNT(*) AS quantidade FROM musica GROUP BY subgenero";
             pstmt = conexao.prepareStatement(sql);
 
-            // Executar a consulta
             rs = pstmt.executeQuery();
 
-            // Criar um mapa para armazenar a contagem de músicas por subgênero
             Map<String, Integer> contagemPorGenero = new HashMap<>();
 
-            // Processar o resultado
             while (rs.next()) {
                 String subgenero = rs.getString("subgenero");
                 int quantidade = rs.getInt("quantidade");
                 contagemPorGenero.put(subgenero, quantidade);
             }
 
-            // Exibir a contagem de músicas por subgênero
             System.out.println("Contagem de músicas por subgênero:");
             for (Map.Entry<String, Integer> entry : contagemPorGenero.entrySet()) {
                 System.out.println(entry.getKey() + ": " + entry.getValue());
@@ -234,7 +228,7 @@ public class Menu {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            // Fechar recursos
+
             try {
                 if (rs != null) rs.close();
                 if (pstmt != null) pstmt.close();
@@ -257,21 +251,18 @@ public class Menu {
         try {
             conexao = ConexaoMySQL.getInstance();
 
-            // Preparar a consulta SQL para obter músicas pelo nome do artista
+
             String sql = "SELECT song FROM musica WHERE artist = ?";
             pstmt = conexao.prepareStatement(sql);
             pstmt.setString(1, nomeArtista);
 
-            // Executar a consulta
             rs = pstmt.executeQuery();
 
-            // Verificar se foram encontradas músicas para o artista
             if (!rs.isBeforeFirst()) {
                 System.out.println("Nenhuma música encontrada para o artista: " + nomeArtista);
             } else {
                 System.out.println("Músicas do artista " + nomeArtista + ":");
 
-                // Processar o resultado
                 while (rs.next()) {
                     String nomeMusica = rs.getString("song");
                     System.out.println(nomeMusica);
@@ -281,7 +272,6 @@ public class Menu {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            // Fechar recursos
             try {
                 if (rs != null) rs.close();
                 if (pstmt != null) pstmt.close();
@@ -297,37 +287,29 @@ public class Menu {
         ResultSet rs = null;
 
         try {
-            // Obter conexão com o banco de dados
             conexao = ConexaoMySQL.getInstance();
 
-            // Preparar a consulta SQL para obter os anos de lançamento
             String sql = "SELECT year FROM musica";
             pstmt = conexao.prepareStatement(sql);
 
-            // Executar a consulta
             rs = pstmt.executeQuery();
 
-            // Variáveis para calcular a média
             int somaAnos = 0;
             int quantidadeMusicas = 0;
 
-            // Processar o resultado
             while (rs.next()) {
                 int anoLancamento = rs.getInt("year");
                 somaAnos += anoLancamento;
                 quantidadeMusicas++;
             }
 
-            // Calcular a média dos anos de lançamento
             int mediaLancamento = (quantidadeMusicas > 0) ? (int) Math.round((double) somaAnos / quantidadeMusicas) : 0;
 
-            // Imprimir a média dos anos de lançamento
             System.out.println("A média do ano de lançamento das músicas é: " + mediaLancamento);
 
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            // Fechar recursos
             try {
                 if (rs != null) rs.close();
                 if (pstmt != null) pstmt.close();

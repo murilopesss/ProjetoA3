@@ -25,7 +25,7 @@ public class ControlaCadastro {
             stmt.executeUpdate();
             System.out.println("Cadastro adicionado ao banco de dados com sucesso!");
         } catch (SQLException e) {
-            if (e.getErrorCode() == 1062) { // Código de erro do MySQL para duplicata de chave primária
+            if (e.getErrorCode() == 1062) { 
                 System.out.println("Erro: ID já existe no banco de dados. Cadastro não adicionado.");
             } else {
                 System.out.println("Erro ao adicionar cadastro ao banco de dados: " + e.getMessage());
