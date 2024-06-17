@@ -80,7 +80,7 @@ public class Usuario {
                 ", documento='" + documento + '\'' +
                 ", email='" + email + '\'' +
                 '}';
-}
+    }
 
 }
     
